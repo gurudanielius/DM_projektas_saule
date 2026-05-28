@@ -1,0 +1,57 @@
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.ipynb
+# OS files
+*.lnk
+desktop.ini
+.DS_Store
+Thumbs.db
+
+# Documents
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+*.doc
+*.xls
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Python
+__pycache__/
+_pycache_/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# R
+*.Rproj
+*.Rhistory
+
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temporary files
+~$*
+klasterizavimas.py
+secrets.json
+analysis_refactor/secrets.json
