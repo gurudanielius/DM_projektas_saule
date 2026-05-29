@@ -17,6 +17,7 @@ Thumbs.db
 *.pptx
 *.doc
 *.xls
+*.csv
 
 # Images
 *.png

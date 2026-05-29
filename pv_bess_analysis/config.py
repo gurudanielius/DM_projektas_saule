@@ -1,12 +1,12 @@
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_FOLDER = PROJECT_ROOT / "data_stitched"
 LOGGER_FILE = DATA_FOLDER / "Feb_Mar_Apr_2026_Combined_Filtered.csv"
 PRICE_FILE = PROJECT_ROOT / "LT_prices_Feb_Mar_Apr_2026.csv"
 IMAGE_DIR = PROJECT_ROOT / "images"
-SECRETS_FILE = PROJECT_ROOT / "analysis_refactor" / "secrets.json"
+SECRETS_FILE = PROJECT_ROOT / "secrets.json"
 
 SELECTED_COLUMNS = [
     "Time",
