@@ -31,14 +31,14 @@ from pv_bess_analysis.rule_based import plot_rule_profiles, rule_based_MSC, rule
 mpl.rcParams["font.size"] = 16
 
 # %% [markdown]
-#   # DuomenÅ³ nuskaitymas
+#   # Duomenų nuskaitymas
 
 # %%
 data_raw, data = load_logger_data()
 data_raw.columns
 
 # %% [markdown]
-#   # PradinÄ— duomenÅ³ analizÄ—
+#   # Pradinė duomenų analizė
 
 # %%
 data_with_lag, expected_step = build_time_step_audit(data, tol=1)
@@ -51,14 +51,14 @@ data_with_lag["delta_min"].describe()
 data_with_lag.loc[data_with_lag["delta_min"] > 30]
 
 # %% [markdown]
-#  Turime viena labai ilga, bet nakti tai galime irasyti "0".
+#  Turime vieną labai ilgą, bet naktį tai galime įrašyti "0".
 
 # %%
 print(data.isnull().sum())
 print(data.duplicated().sum())
 
 # %% [markdown]
-#  ## StulpeliÅ³ logika
+#  ## Stulpelių logika
 
 # %%
 checks = status_checks(data)
@@ -67,34 +67,32 @@ checks
 # %% [markdown]
 #  Total grid power:
 #
-#  Puchasing - siunÄiames elektrÄ… iÅ¡ tinklo arba baterijai krauti arba padengti apkrovÄ…. Å½enklas "+".
+#  Puchasing - siunčiamės elektrą iš tinklo arba baterijai krauti arba padengti apkrovą. Ženklas "+".
 #
-#  Static - neveiksni bÅ«sena, nedidelÄ—s reikÅ¡mÄ—s.
+#  Static - neveiksni būsena, nedidelės reikšmės.
 #
 #  Total battery power:
 #
-#  Baterijos statuso stulpelis Ä¯gyja tris reikÅ¡mes: Charging, Discharging ir Static
+#  Baterijos statuso stulpelis įgyja tris reikšmes: Charging, Discharging ir Static
 #
-#  Kai kraunasi battery power -, t.y. imama energija turi Å¾enklÄ… -
+#  Kai kraunasi battery power -, t.y. imama energija turi ženklą -
 #
-#  Kai discharging battery power +, t.y. iÅ¡leidÅ¾iama energija yra +
+#  Kai discharging battery power +, t.y. išleidžiama energija yra +
 
 # %% [markdown]
-#   ## DuomenÅ³ tvarkymas
+#   ## Duomenų tvarkymas
 #
 
 # %%
 data_agg = build_regular_grid(data)
 data_final = data_agg.copy()
-#TODO: ar tikrai reikia atskirai saugoti data_agg ir data_final? Galima tiesiog perraÅ¡yti data_agg, nes data_final dabar yra tas pats kas data_agg
-
 # %%
 data_final
 
 # %%
-print(f'interpoliuotu reiksmiu skaicius: {len(data_final[data_final["source"] == "interpolated"])}')
+print(f'interpoliuotų reikšmių skaičius: {len(data_final[data_final["source"] == "interpolated"])}')
 print(
-    "interpoliuoti reiksmiu procentas: "
+    "interpoliuotų reikšmių procentas: "
     f'{len(data_final[data_final["source"] == "interpolated"]) / len(data_final) * 100:.2f}%'
 )
 
@@ -111,13 +109,13 @@ plot_interpolation_by_month(
 plot_interpolation_by_month(
     data_final,
     value_col="Total Solar Power(W)",
-    label="SaulÄ—s galia (kW)",
+    label="Saulės galia (kW)",
     filename="interpoliacija_saule.png",
     sharey=False,
 )
 
 # %% [markdown]
-#  ## Skaitiniai ir grafiniai dalykeliai
+#  ## Skaitiniai ir grafiniai dalykėliai
 
 # %% [markdown]
 #  ## TOTAL CONSUMPTION
@@ -137,7 +135,7 @@ for month, month_name in MONTH_NAMES.items():
     q3 = month_data.quantile(0.75)
     iqr = q3 - q1
     outliers = month_data[(month_data < q1 - 1.5 * iqr) | (month_data > q3 + 1.5 * iqr)]
-    print(f"{month_name}: {len(outliers)} iÅ¡skirtys iÅ¡ {len(month_data)} ({len(outliers) / len(month_data) * 100:.1f}%)")
+    print(f"{month_name}: {len(outliers)} išskirtys iš {len(month_data)} ({len(outliers) / len(month_data) * 100:.1f}%)")
 
 # %%
 consumption_kwh_month = (
@@ -290,7 +288,7 @@ for month, month_name in MONTH_NAMES.items():
     q3 = month_data.quantile(0.75)
     iqr = q3 - q1
     outliers = month_data[(month_data < q1 - 1.5 * iqr) | (month_data > q3 + 1.5 * iqr)]
-    print(f"{month_name}: {len(outliers)} iÅ¡skirtys iÅ¡ {len(month_data)} ({len(outliers) / len(month_data) * 100:.1f}%)")
+    print(f"{month_name}: {len(outliers)} išskirtys iš {len(month_data)} ({len(outliers) / len(month_data) * 100:.1f}%)")
 
 # %%
 pv_energy_kwh_month = (
@@ -379,7 +377,7 @@ plt.show()
 plot_monthly_power_series(
             data_final,
             value_col="Total Solar Power(W)",
-            label="SaulÄ—s elektrinÄ—s sugeneruota galia (kW)",
+            label="Saulės elektrinės sugeneruota galia (kW)",
             filename_template="saules_galia_{month:02d}.png",
             y_limits={
         2: (-0.01, 0.5),
@@ -454,7 +452,7 @@ print_milp_cost_summary(
 )
 
 # %% [markdown]
-#   # TaisyklÄ—mis pagrÄ¯stos strategijos
+#   # Taisyklėmis pagrįstos strategijos
 
 # %%
 data_rule = build_rule_dataframe(data_final, milp_df)
@@ -479,7 +477,7 @@ sim, dfm_MSC = print_rule_cost_summary(
 df_rule_MSC = plot_rule_profiles(sim, data_rule, method="msc")
 
 # %% [markdown]
-#   ## TOU taisyklÄ—mis pagrÄ¯sta strategija
+#   ## TOU taisyklėmis pagrįsta strategija
 
 # %%
 sim_tou = rule_based_TOU(data_rule, dt_hours=INTERVAL_HOURS, tou_col="tou")
@@ -495,10 +493,5 @@ sim_tou, dfm_TOU = print_rule_cost_summary(
 # %%
 df_rule_TOU = plot_rule_profiles(sim_tou, data_rule, method="tou")
 
-# %% [markdown]
-#   # Pastabos
-#
-#   Å is refaktorizuotas variantas sÄ…moningai iÅ¡laiko dabartines formules ir failÅ³ pavadinimus.
-#
-#   Vietos, kur vÄ—liau reikÄ—tÅ³ grieÅ¾tesnio metodinio sutvarkymo, paÅ¾ymÄ—tos TODO komentaruose moduliuose.
+
 
